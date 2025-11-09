@@ -1,0 +1,22 @@
+version: v2
+plugins:
+  - remote: buf.build/bufbuild/es:v2.10.0
+    out: gen/ts
+    include_imports: true
+    opt: target=ts
+  - local: protoc-gen-go
+    out: gen/go
+    opt: paths=source_relative
+  - local: protoc-gen-connect-go
+    out: gen/go
+    opt:
+      - paths=source_relative
+      - simple
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: example/gen
+  disable:
+    - file_option: go_package
+      module: buf.build/bufbuild/protovalidate
